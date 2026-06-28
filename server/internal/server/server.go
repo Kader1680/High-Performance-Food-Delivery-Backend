@@ -15,9 +15,7 @@ func NewRouter(pool *pgxpool.Pool) *gin.Engine {
 			"message": "server running",
 		})
 	})
-
-	 
-
+	
 	// Authentication dependency injection
 
 	authRepo := auth.NewRepository(pool)
