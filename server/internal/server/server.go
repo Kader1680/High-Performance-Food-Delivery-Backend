@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/auth"
+	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/restaurant"
 	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/middleware"
 )
 
@@ -16,8 +17,6 @@ func NewRouter(pool *pgxpool.Pool) *gin.Engine {
 		})
 	})
 	
-	// Authentication dependency injection
-
 	authRepo := auth.NewRepository(pool)
 	authService := auth.NewService(authRepo)
 	authHandler := auth.NewHandler(authService)
@@ -27,11 +26,17 @@ func NewRouter(pool *pgxpool.Pool) *gin.Engine {
 		authRoutes.POST("/register", authHandler.Register)
 		authRoutes.POST("/login", authHandler.Login)
 	}
-
 	protected := r.Group("/")
 	protected.Use(middleware.AuthMiddleware())
 	{
 		protected.GET("/users/me", authHandler.GetMe)
 	}
+
+	restaurantRepo := restaurant.NewRepository(pool)
+	restaurantService := restaurant.NewService(restaurantRepo)
+	restaurantHandler := restaurant.NewHandler(restaurantService)
+	r.POST("/restaurants", restaurantHandler.Create)
+
+
 	return r
 }

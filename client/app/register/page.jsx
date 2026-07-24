@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Mail, Lock } from "lucide-react";
 
 export default function register() {
+  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +24,6 @@ export default function register() {
           Continue with Google
         </button>
 
-        {/* Divider */}
         <div className="relative mb-6">
           <div className="border-t"></div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-3 bg-white px-3 text-sm text-gray-400">
@@ -31,11 +31,8 @@ export default function register() {
           </span>
         </div>
 
-        {/* Form */}
         <form className="space-y-4">
-          {/* Email */}
-
-
+ 
           <div>
             <label className="block mb-2 text-sm font-medium">Name</label>
             <div className="relative">

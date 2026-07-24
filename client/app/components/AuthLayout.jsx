@@ -5,9 +5,7 @@ export default function AuthLayout({ icon: Icon, title, subtitle, footer, childr
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-md">
-        {/* Card */}
         <div className="bg-card border border-border rounded-2xl shadow-sm p-8">
-          {/* Header */}
           <div className="flex flex-col items-center mb-8">
             {Icon && (
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">

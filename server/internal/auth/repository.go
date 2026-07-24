@@ -11,7 +11,7 @@ func NewRepository(db *pgxpool.Pool) *Repository {
 	return &Repository{db: db}
 }
 
-// create new user register
+ 
 func (r *Repository) Create(user *User) error  {
 
 	query := 
@@ -28,9 +28,7 @@ func (r *Repository) Create(user *User) error  {
 			user.Password,
 		).Scan(&user.ID)
 }
-
-// Get by Email 
-
+ 
 func (r *Repository) getByEmail(email string) (*User, error){
 
 	query := `
