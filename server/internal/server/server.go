@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/auth"
+	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/categories"
 	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/restaurant"
 	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/middleware"
 )
@@ -35,8 +36,21 @@ func NewRouter(pool *pgxpool.Pool) *gin.Engine {
 	restaurantRepo := restaurant.NewRepository(pool)
 	restaurantService := restaurant.NewService(restaurantRepo)
 	restaurantHandler := restaurant.NewHandler(restaurantService)
-	r.POST("/restaurants", restaurantHandler.Create)
+	restaurants := r.Group("/restaurants")
+	{
+		restaurants.POST("", restaurantHandler.Create)
+		restaurants.GET("", restaurantHandler.GetAll)
+	}
 
+
+	categoryRepo := categories.NewRepository(pool)
+	categoryService := categories.NewService(categoryRepo)
+	categoryHandler := categories.NewHandler(categoryService)
+	categories := r.Group("/categories")
+	{
+		categories.POST("/", categoryHandler.Create)
+		categories.GET("/", categoryHandler.GetAll)
+	}
 
 	return r
 }

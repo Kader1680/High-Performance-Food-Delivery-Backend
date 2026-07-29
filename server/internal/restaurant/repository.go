@@ -8,6 +8,7 @@ import (
 
 type Repository interface {
 	Create(ctx context.Context, restaurant *Restaurant) error
+	GetAll(ctx context.Context) ([]Restaurant, error)
 }	
 
 type repository struct {
@@ -50,11 +51,11 @@ func (r *repository) Create(ctx context.Context, restaurant *Restaurant) error {
 	restaurant.IsOpen,
 	restaurant.Phone,
 	restaurant.Address,
-).Scan(
-	&restaurant.ID,
-	&restaurant.CreatedAt,
-	&restaurant.UpdatedAt,
-)
+	).Scan(
+		&restaurant.ID,
+		&restaurant.CreatedAt,
+		&restaurant.UpdatedAt,
+	)
 
 	if err != nil {
 		return err
@@ -62,3 +63,62 @@ func (r *repository) Create(ctx context.Context, restaurant *Restaurant) error {
 
 	return nil
 }
+
+
+func (r *repository) GetAll(ctx context.Context) ([]Restaurant, error){
+	const query = `
+	SELECT
+    id,
+    owner_id,
+    name,
+    description,
+    status,
+    is_open,
+    phone,
+    address,
+    created_at,
+    updated_at
+	FROM restaurants;
+	`
+	rows, err := r.db.Query(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var restaurants []Restaurant
+
+	 
+	for rows.Next() {
+
+		var restaurant Restaurant
+
+		err := rows.Scan(
+			&restaurant.ID,
+			&restaurant.OwnerID,
+			&restaurant.Name,
+			&restaurant.Description,
+			&restaurant.Status,
+			&restaurant.IsOpen,
+			&restaurant.Phone,
+			&restaurant.Address,
+			&restaurant.CreatedAt,
+			&restaurant.UpdatedAt,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		restaurants = append(restaurants, restaurant)
+		}
+
+		if err := rows.Err(); err != nil {
+			return nil, err
+		}
+
+		return restaurants, nil
+	
+}
+	 
+ 

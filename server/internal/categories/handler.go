@@ -1,4 +1,4 @@
-package restaurant
+package categories
 
 import "github.com/gin-gonic/gin"
 
@@ -13,7 +13,7 @@ func NewHandler(service *Service) *Handler {
 }
 func (h *Handler) Create(c *gin.Context) {
 
-	var req CreateRestaurantRequest
+	var req CreateCategoryRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(400, gin.H{
@@ -22,12 +22,10 @@ func (h *Handler) Create(c *gin.Context) {
 		return
 	}
 
-	ownerID := int64(1)
 
 	err := h.service.Create(
 		c.Request.Context(),
 		req,
-		ownerID,
 	)
 
 	if err != nil {
@@ -38,13 +36,13 @@ func (h *Handler) Create(c *gin.Context) {
 	}
 
 	c.JSON(201, gin.H{
-		"message": "Restaurant created successfully",
+		"message": "Category created successfully",
 	})
 }
 
 
 func (h *Handler) GetAll(c *gin.Context) {
-	restaurants, err := h.service.GetAll(
+	categories, err := h.service.GetAll(
 		c.Request.Context(),
 	)
 	if err != nil {
@@ -56,6 +54,6 @@ func (h *Handler) GetAll(c *gin.Context) {
 
 	c.JSON(
 	200,
-	restaurants,
+	categories,
 )
 }

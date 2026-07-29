@@ -30,3 +30,11 @@ func (s *Service) Create(
 
 	return s.repo.Create(ctx, restaurant)
 }
+
+
+func (s *Service) GetAll(
+	ctx context.Context,
+) ([]Restaurant, error) {
+
+	return s.repo.GetAll(ctx)
+}
