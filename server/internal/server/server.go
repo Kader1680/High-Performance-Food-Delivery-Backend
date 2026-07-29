@@ -1,7 +1,9 @@
 package server
 
 import (
+	"time"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/auth"
 	"github.com/Kader1680/High-Performance-Food-Delivery-Backend/internal/categories"
@@ -17,6 +19,15 @@ func NewRouter(pool *pgxpool.Pool) *gin.Engine {
 			"message": "server running",
 		})
 	})
+	
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 	
 	authRepo := auth.NewRepository(pool)
 	authService := auth.NewService(authRepo)
