@@ -29,7 +29,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Quick Links */}
         <div>
           <h3 className="text-white font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
@@ -40,7 +39,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Company */}
         <div>
           <h3 className="text-white font-semibold mb-4">Company</h3>
           <ul className="space-y-2 text-sm">
